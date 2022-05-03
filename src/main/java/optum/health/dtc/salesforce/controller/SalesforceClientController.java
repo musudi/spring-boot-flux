@@ -4,9 +4,7 @@ import optum.health.dtc.salesforce.model.*;
 import optum.health.dtc.salesforce.service.SalesforceClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
  
 @RestController
@@ -31,5 +29,16 @@ public class SalesforceClientController
     @ResponseStatus(HttpStatus.CREATED)
     public Mono<User> create(@RequestBody UserCreate user) {
         return salesforceClientService.createUser(user);
+    }
+
+    @PostMapping("/soobject")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Mono<SObjectResponse> createSOObject(@RequestBody SObjectRequest request) {
+        return salesforceClientService.createSOObject(request);
+    }
+
+    @GetMapping(value = "/{id}")
+    public Mono<String> getSObject(@PathVariable("id") String id) {
+        return salesforceClientService.getSObject(id);
     }
 }

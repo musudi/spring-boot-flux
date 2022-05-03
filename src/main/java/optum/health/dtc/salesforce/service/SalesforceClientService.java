@@ -1,9 +1,6 @@
 package optum.health.dtc.salesforce.service;
 
-import optum.health.dtc.salesforce.model.ClientAccessTokenRequest;
-import optum.health.dtc.salesforce.model.ClientAccessTokenResponse;
-import optum.health.dtc.salesforce.model.User;
-import optum.health.dtc.salesforce.model.UserCreate;
+import optum.health.dtc.salesforce.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -44,5 +41,21 @@ public class SalesforceClientService implements ISalesforceClientService
 				.timeout(Duration.ofMillis(10_000));
 	}
 
+	@Override
+	public Mono<SObjectResponse> createSOObject(SObjectRequest request) {
+		return webClient.post()
+				.uri("/sobjects/Attachment")
+				.body(Mono.just(request), SObjectRequest.class)
+				.retrieve()
+				.bodyToMono(SObjectResponse.class)
+				.timeout(Duration.ofMillis(10_000));
+	}
 
+	@Override
+	public Mono<String> getSObject(String id) {
+		return webClient.get()
+				.uri("/sobjects/Attachment/" + id +"/body")
+				.retrieve()
+				.bodyToMono(String.class);
+	}
 }

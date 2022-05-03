@@ -9,4 +9,8 @@ public interface ISalesforceClientService {
     Mono<ClientAccessTokenResponse> getClientAccessToken(ClientAccessTokenRequest accessTokenRequest);
 
     Mono<User> createUser(UserCreate user);
+
+    Mono<SObjectResponse> createSOObject(SObjectRequest request);
+
+    Mono<String> getSObject(String id);
 }
